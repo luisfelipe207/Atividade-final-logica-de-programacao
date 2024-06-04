@@ -102,7 +102,6 @@ int numeroTarefas = 0;
 int main() {
 int menu;
 
-cout << "\nMenu Principal:" << endl;
 cout << "1. Adicionar Tarefa" << endl;
 cout << "2. Visualizar Tarefas" << endl;
 cout << "3. Editar Tarefa" << endl;
