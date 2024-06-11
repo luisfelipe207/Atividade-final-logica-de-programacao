@@ -1,109 +1,131 @@
 #include <iostream>
 #include <string>
-#include <vector> 
+#include <vector>
 
 using namespace std;
+// Array para armazenar as informações das tarefas
+string titulo[100];
+string descricao[100];
+int status[100];
+string data[100];
+int id[100];
+int controle = 0;
 
-// Estrutura para armazenar uma tarefa
-struct Tarefa {
-string descricao;
-string data;
-string status; 
-};
-
-vector<Tarefa> tarefas;
-
-// Função para adicionar uma nova tarefa
+// Função para adicionar tarefa
 void adicionarTarefa() {
-Tarefa novaTarefa;
-
-cout << "Descrição da tarefa: ";
-getline(cin, novaTarefa.descricao);
-
-cout << "Data limite (opcional, formato dd/mm/aaaa): ";
-getline(cin, novaTarefa.data);
-
-cout << "Status da tarefa (pendente/concluída): ";
-getline(cin, novaTarefa.status);
-
-while (novaTarefa.status != "pendente" && novaTarefa.status != "concluída") {
-cout << "Status inválido. Digite 'pendente' ou 'concluída': ";
-getline(cin, novaTarefa.status);
-}
-
-tarefas.push_back(novaTarefa);
+cout << "Titulo" ;
+cin >> titulo[controle];
+cout << "Descrição: ";
+cin >> descricao[controle];
+cout << "Status (0 - Incompleta, 1 - Completa): ";
+cin >> status[controle];
+cout << "Data: ";
+cin >> data[controle];
+id[controle] = controle;
+controle++;
 cout << "Tarefa adicionada com sucesso!" << endl;
 }
 
+// Função para editar tarefa
+void editarTarefa(){
+int id_tarefa;
+cout << "ID da tarefa para editar: ";
+cin >> id_tarefa;
+if (id_tarefa>= 0 && id_tarefa < controle && id[id_tarefa] != -1) {
+cout << "Novo Título: ";
+cin >> titulo[id_tarefa];
+cout << "Nova Descrição: ";
+cin >> descricao[id_tarefa];
+cout << "Novo Status (0 - Incompleta, 1 - Completa): ";
+cin >> status[id_tarefa];
+cout << "Nova Data: ";
+cin >> data[id_tarefa];
+cout << "Tarefa editada com sucesso!" << endl;
+} else {
+cout << "ID inválido!" << endl;
+   }
+}
+
+// Função para remover tarefa
+void removerTarefa(){
+int id_tarefa;
+cout << "ID da tarefa para remover: ";
+cin >> id_tarefa;
+if (id_tarefa >= 0 && id_tarefa < controle && id[id_tarefa] != -1) {
+id[id_tarefa] = -1;
+cout << "Tarefa removida com sucesso!" << endl;
+} else {
+cout << "ID inválido!" << endl;
+   }
+}
+
 // Função para visualizar todas as tarefas
-void visualizarTarefas() {
-if (tarefas.empty()) {
-cout << "Não há tarefas para mostrar." << endl;
-return;
+void visualizarTarefa(){
+for(int i =0; i > controle ; i++){
+if(id[i] != -1){
+cout << "ID: " << id[i] << endl;
+cout << "Título: " << titulo[i] << endl;
+cout << "Descrição: " << descricao[i] << endl;
+cout << "Status: " << (status[i] == 0 ? "Incompleta" : "Completa") << endl;
+cout << "Data: " << data[i] << endl;
+}
+   }
 }
 
-cout << "\nLista de Tarefas:\n";
-for (int i = 0; i < tarefas.size(); i++) {
-cout << i + 1 << " - " << tarefas[i].descricao;
-if (!tarefas[i].data.empty()) {
-cout << " (Data Limite: " << tarefas[i].data << ")";
+// Função para buscar tarefa
+void buscarTarefa(){
+string busca;
+cout << "busca";
+cin >> busca;
+bool encontrado = false;
+for(int i =0; i > controle ; i++){
+if(titulo[i] == busca){
+cout << "ID: " << id[i] << endl;
+cout << "Título: " << titulo[i] << endl;
+cout << "Descrição: " << descricao[i] << endl;
+cout << "Status: " << (status[i] == 0 ? "Incompleta" : "Completa") << endl;
+cout << "Data: " << data[i] << endl;
+encontrado = true;
 }
-cout << " (" << tarefas[i].status << ")" << endl;
-}
-}
-
-// Função para editar uma tarefa
-void editarTarefa() {
-if (tarefas.empty()) {
-cout << "Não há tarefas para editar." << endl;
-return;
-}
-
-int Tarefa;
-cout << "Digite o ID da tarefa a ser editada: ";
-cin >> Tarefa;
-
-if (Tarefa < 1 || Tarefa > tarefas.size()) {
-cout << "ID de tarefa inválido." << endl;
-return;
+   }
+if (!encontrado) {
+cout << "Tarefa não encontrada!" << endl;
+   }
 }
 
-Tarefa;
-
-cout << "Nova descrição da tarefa: ";
-getline(cin, tarefas[Tarefa].descricao);
-
-cout << "Nova data limite (opcional, formato dd/mm/aaaa): ";
-getline(cin, tarefas[Tarefa].data);
-
-cout << "Novo status da tarefa (pendente/concluída): ";
-getline(cin, tarefas[Tarefa].status);
-
-while (tarefas[Tarefa].status != "pendente" && tarefas[Tarefa].status != "concluída") {
-cout << "Status inválido. Digite 'pendente' ou 'concluída': ";
-getline(cin, tarefas[Tarefa].status);
+// Função para filtrar tarefas por status
+void filtrarTarefasPorStatus(){
+int busca;
+cout << "status";
+cin >> busca;
+bool encontrado = false;
+for(int i =0; i > controle ; i++){
+if(status[i] == busca){
+cout << "ID: " << id[i] << endl;
+cout << "Título: " << titulo[i] << endl;
+cout << "Descrição: " << descricao[i] << endl;
+cout << "Status: " << (status[i] == 0 ? "Incompleta" : "Completa") << endl;
+cout << "Data: " << data[i] << endl;
+encontrado = true;
 }
-cout << "Tarefa editada com sucesso";
+   }
+if (!encontrado) {
+cout << "Nenhuma tarefa encontrada com esse status!" << endl;
+   }
+}
 
-// Funções para gerenciar tarefas
-void adicionarTarefa();
-void visualizarTarefas();
-void editarTarefa();
-void removerTarefa();
-void buscarTarefa();
-void filtrarTarefasPorStatus();
-void sair();
-
-// Array para armazenar as informações das tarefas
-string tarefas[100][5]; 
-
-int numeroTarefas = 0;
+// Função para sair do programa
+void sair() {
+cout << "Saindo do programa..." << endl;
+exit(0);
+}
 
 int main() {
+while (true) {
 int menu;
 
 cout << "1. Adicionar Tarefa" << endl;
-cout << "2. Visualizar Tarefas" << endl;
+cout << "2. Visualizar Tarefa" << endl;
 cout << "3. Editar Tarefa" << endl;
 cout << "4. Remover Tarefa" << endl;
 cout << "5. Buscar Tarefa" << endl;
@@ -117,7 +139,7 @@ case 1:
 adicionarTarefa();
 break;
 case 2:
-visualizarTarefas();
+visualizarTarefa();
 break;
 case 3:
 editarTarefa();
@@ -137,7 +159,6 @@ break;
 default:
 cout << "Opção inválida!" << endl;
 }
-} while (true);
-
+   }
 return 0;
-
+}
